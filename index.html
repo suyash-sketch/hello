@@ -1,58 +1,139 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hello Jii</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+    <title>I'm Sorry ❤️</title>
 </head>
+
 <body>
-    <div class="container">
-        <div class="click-hint" id="clickHint">
 
-            <p class="hint-text">click me at the heart...</p>
-        </div>
-        <div class="envelope-wrapper" id="envelopeWrapper">
-            <div class="envelope">
-                <div class="envelope-back"></div>
-                <div class="envelope-flap">
-                    <div class="heart-button" id="heartButton" aria-label="Open envelope">
-                        <span class="heart">🩷</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="overlay" id="overlay">
 
-        <div class="apology-card hidden" id="apologyCard">
-            <h1>Hellooo Jii 🤓🤓 </h1>
-            <button class="close-btn" id="closeBtn">✕</button>
-        </div>
+    <div class="popup">
+
+      <!-- Replace this with your GIF/video -->
+      <img
+        class="gif"
+        src="sorry.gif"
+        alt="Sorry"
+      >
+
+      <h1>Soorrrrrryyyyyyyy☹️</h1>
+
+      <p>
+        Please accept my apologyyy 😭😭😭😭❤️
+      </p>
+
+      <div class="buttons" id="buttons">
+
+        <button id="accept">
+          Accept ❤️
+        </button>
+
+        <button id="reject">
+          Reject 😭
+        </button>
+
+      </div>
+
+      <div class="success" id="success">
+        Thank youuu for accepting my apologyyy 🤓🤓🩷
+      </div>
+
     </div>
 
-    <script>
-        const heartButton = document.getElementById('heartButton');
-        const envelopeWrapper = document.getElementById('envelopeWrapper');
-        const apologyCard = document.getElementById('apologyCard');
-        const closeBtn = document.getElementById('closeBtn');
+  </div>
 
-        const clickHint = document.getElementById('clickHint');
 
-        heartButton.addEventListener('click', function() {
-            envelopeWrapper.classList.add('open');
-            clickHint.classList.add('fade-out');
-            setTimeout(function() {
-                apologyCard.classList.remove('hidden');
-            }, 350);
-        });
+  <script>
 
-        closeBtn.addEventListener('click', function() {
-            envelopeWrapper.classList.remove('open');
-            apologyCard.classList.add('hidden');
-            clickHint.classList.remove('fade-out');
-        });
-    </script>
+    const rejectButton = document.getElementById("reject");
+    const acceptButton = document.getElementById("accept");
+    const successMessage = document.getElementById("success");
+
+    /*
+      Make the Reject button run away
+      whenever the cursor gets close to it.
+    */
+
+    function moveRejectButton() {
+
+      const buttonArea =
+        document.getElementById("buttons");
+
+      const areaWidth = buttonArea.offsetWidth;
+      const areaHeight = buttonArea.offsetHeight;
+
+      const buttonWidth = rejectButton.offsetWidth;
+      const buttonHeight = rejectButton.offsetHeight;
+
+      const maxX = (areaWidth - buttonWidth) * 1.2;
+      const maxY = 120;
+
+      const randomX =
+        Math.random() * maxX - maxX / 2;
+
+      const randomY =
+        Math.random() * maxY - maxY / 2;
+
+      rejectButton.style.transform =
+        `translate(${randomX}px, ${randomY}px)`;
+    }
+
+
+    // Desktop: move when mouse gets close
+    rejectButton.addEventListener(
+      "mouseenter",
+      moveRejectButton
+    );
+
+
+    // Touch screens have no cursor, so move before a tap can land.
+    rejectButton.addEventListener(
+      "pointerdown",
+      function(event) {
+        if (event.pointerType === "touch") {
+          event.preventDefault();
+          moveRejectButton();
+        }
+      }
+    );
+
+
+    // Also prevent clicking Reject
+    rejectButton.addEventListener(
+      "click",
+      function(event) {
+        event.preventDefault();
+        moveRejectButton();
+      }
+    );
+
+
+    // Accept button
+    acceptButton.addEventListener(
+      "click",
+      function() {
+
+        successMessage.style.display = "block";
+
+        rejectButton.style.display = "none";
+
+        acceptButton.textContent =
+          "Accepted ❤️";
+
+        acceptButton.disabled = true;
+
+      }
+    );
+
+  </script>
+
 </body>
 </html>
